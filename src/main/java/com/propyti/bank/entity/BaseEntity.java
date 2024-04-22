@@ -1,6 +1,8 @@
 package com.propyti.bank.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -9,6 +11,8 @@ import java.util.Date;
 
 @MappedSuperclass
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BaseEntity {
 
     @Id
@@ -30,6 +34,4 @@ public class BaseEntity {
     @Column(name = "status")
     private Status status;
 
-    public BaseEntity() {
-    }
 }

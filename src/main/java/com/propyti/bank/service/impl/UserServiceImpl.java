@@ -8,9 +8,12 @@ import com.propyti.bank.repository.UserRepository;
 import com.propyti.bank.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,10 +50,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAll() {
-        List<User> result = userRepository.findAll();
-        log.info("IN getAll - {} users found", result.size());
-        return result;
+    public User update(User user) {
+        User updatedUser = userRepository.save(user);
+
+        log.info("IN update - user: {} successfully updated", updatedUser);
+
+        return updatedUser;
     }
 
     @Override
@@ -71,6 +76,12 @@ public class UserServiceImpl implements UserService {
 
         log.info("IN findById - user: {} found by id: {}", result);
         return result;
+    }
+
+    @Override
+    public List<User> findAll(Integer page, Integer offset, String sortBy) {
+        PageRequest pageable = PageRequest.of(page, offset, Sort.Direction.valueOf(sortBy));
+        return (List<User>) userRepository.findAll(pageable);
     }
 
     @Override
